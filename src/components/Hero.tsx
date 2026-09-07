@@ -40,9 +40,9 @@ export function Hero() {
           {/* Avatar + speech-bubble intro */}
           <Reveal className="relative w-[130px] shrink-0 md:w-[150px]">
             {hasGreeting && (
-              <div className="absolute -top-16 start-1/2 flex w-[260px] max-w-[80vw] -translate-x-1/2 flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center font-heading text-sm text-white/90 rtl:translate-x-1/2 md:start-0 md:max-w-none md:translate-x-0 md:justify-start md:rtl:translate-x-0 md:text-start">
+              <div className="absolute -top-16 start-1/2 flex w-[260px] max-w-[80vw] -translate-x-1/2 flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center font-heading text-sm text-white/90 rtl:translate-x-1/2 md:-top-24 md:start-0 md:w-[320px] md:max-w-none md:translate-x-0 md:justify-start md:rtl:translate-x-0 md:text-start lg:-top-20 lg:w-[300px]">
                 <span>{greetingPrefix}</span>
-                <span className="text-lg font-bold text-white md:text-xl">{name}</span>
+                <span className="text-lg font-bold text-white md:text-lg lg:text-xl">{name}</span>
               </div>
             )}
 
