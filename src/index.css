@@ -38,6 +38,14 @@
 
   html {
     scroll-behavior: smooth;
+    /* Several decorative glow blobs (GlowField, project-row ambient glows)
+       are deliberately oversized and bleed past their section's edges for a
+       soft ambient effect. `overflow-x: hidden` on `body` alone doesn't
+       reliably clip that on every engine — some browsers still let the
+       viewport itself scroll horizontally by the overflow amount, which on
+       a phone shows up as the whole page nudging sideways when swiped.
+       Hiding it here too closes that gap without touching any component. */
+    overflow-x: hidden;
   }
 
   body {
@@ -65,6 +73,25 @@
     --font-heading: var(--font-arabic);
     --font-nav: var(--font-arabic);
     --font-body: var(--font-arabic);
+  }
+
+  /* On phones, the decorative display/heading faces (Preahvihear, Poor
+     Story, Poetsen One) read as hand-drawn and slightly wavy at small
+     sizes — great on a big desktop headline, harder to scan on a 6" screen.
+     Below the `sm` breakpoint only, fall back to the clean geometric sans
+     already used for nav/buttons so headings stay crisp and legible. This
+     doesn't touch spacing/layout — only which font each role resolves to —
+     so tablet and desktop are completely unaffected. `:not([dir='rtl'])`
+     keeps this from firing on Arabic mobile, where Cairo (set above) must
+     still win — without it, this rule's plain `html` selector would tie
+     the RTL rule's specificity and, coming later in the file, silently
+     override it back to Plus Jakarta Sans. */
+  @media (max-width: 639px) {
+    html:not([dir='rtl']) {
+      --font-display: var(--font-nav);
+      --font-display-alt: var(--font-nav);
+      --font-heading: var(--font-nav);
+    }
   }
 }
 
