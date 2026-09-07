@@ -615,9 +615,16 @@ export const projects: FeaturedProject[] = [
 ];
 
 export const contact = {
-  heading: { en: 'Contact', ar: 'تواصل معي' } satisfies Localized,
-  blurb: { en: '', ar: '' } satisfies Localized,
-  email: '',
+  heading: { en: 'Let’s Connect', ar: 'لنتواصل' } satisfies Localized,
+  blurb: {
+    en: 'Have an opportunity or an idea in mind? I’d love to hear from you.',
+    ar: 'عندك فرصة أو فكرة بخاطرك؟ يسعدني إني اسمعها منك.',
+  } satisfies Localized,
+  email: 'Laithi11@aol.com',
+  phone: '+966539336282',
+  phoneDisplay: '0539 336 282',
 };
 
-export const socials: SocialLink[] = [];
+export const socials: SocialLink[] = [
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/Laithi11', slug: 'linkedin' },
+];
