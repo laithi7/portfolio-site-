@@ -1,0 +1,186 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Typography */
+  --font-display: 'Poor Story', cursive;
+  --font-display-alt: 'Poetsen One', cursive;
+  --font-heading: 'Preahvihear', sans-serif;
+  --font-nav: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Poppins', sans-serif;
+  --font-arabic: 'Cairo', sans-serif;
+
+  /* Palette — pulled from the Figma design tokens */
+  --color-ink: #11071f; /* page background base */
+  --color-header: #1a0b2e; /* header bar */
+  --color-card-deep: #130428; /* experience card gradient stop 1 */
+  --color-card-mid: #251043; /* experience card gradient stop 2 */
+  --color-card-violet: #38126d; /* experience card gradient stop 3 */
+  --color-card-fade: #261045; /* experience card gradient stop 4 */
+  --color-card-dark: #190634; /* experience card gradient stop 5 */
+  --color-card-flat: #2c1250; /* flat card background */
+  --color-rule: #4f228d; /* divider line under card image */
+
+  --color-accent: #7127ba; /* "cover" highlight, primary purple */
+  --color-accent-bright: #9857d3; /* "Featured Project" label */
+  --color-accent-light: #a362ff; /* "cross-functional" highlight */
+  --color-accent-glow: #693b93; /* card sheen gradient */
+
+  --color-body-text: #ccd6f6; /* project card copy */
+  --color-fb-blue: #1877f2; /* "Facebook" link */
+
+  --color-white: #ffffff;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-ink);
+    color: var(--color-white);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-white);
+  }
+
+  /* Arabic script isn't covered by the site's decorative Latin fonts
+     (Preahvihear, Poor Story, Poetsen One, Plus Jakarta Sans) — swap every
+     font role to Cairo under RTL so Arabic copy renders in a real Arabic
+     face instead of silently falling back to the OS default. */
+  html[dir='rtl'] {
+    --font-display: var(--font-arabic);
+    --font-display-alt: var(--font-arabic);
+    --font-heading: var(--font-arabic);
+    --font-nav: var(--font-arabic);
+    --font-body: var(--font-arabic);
+  }
+}
+
+@layer utilities {
+  .text-outline-accent {
+    -webkit-text-decoration-color: var(--color-accent-light);
+    text-decoration-color: var(--color-accent-light);
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes orbit-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blink-caret {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(12px, -18px);
+  }
+}
+
+@keyframes skill-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes skill-orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes skill-orbit-counter {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+/* Users who've asked for reduced motion get every continuous/looping
+   animation frozen on its resting frame — scroll-triggered reveals still
+   run (handled in JS via matchMedia) since those are one-shot, not looping. */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
