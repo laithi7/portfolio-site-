@@ -161,12 +161,7 @@ function GridLayout() {
   const { t } = useLanguage();
 
   return (
-    <div className="mx-auto flex max-w-md flex-col items-center gap-8 sm:hidden">
-      <div className="relative flex size-24 items-center justify-center rounded-full bg-gradient-to-b from-[#8a4fd6] to-[#4a1f8f] shadow-[0_0_50px_rgba(163,98,255,0.5)]">
-        <div className="absolute inset-0 -z-10 rounded-full bg-[var(--color-accent-light)]/30 blur-2xl" aria-hidden />
-        <img src={logo} alt="" className="h-14 w-auto" />
-      </div>
-
+    <div className="mx-auto flex max-w-md flex-col items-center gap-6 sm:hidden">
       <div className="w-full rounded-2xl border border-white/10 bg-white/[0.03] p-5">
         <p className="text-center font-body text-xs font-semibold tracking-[0.14em] text-[var(--color-accent-bright)] uppercase">
           {t({ en: 'Core Stack', ar: 'الأدوات الأساسية' })}

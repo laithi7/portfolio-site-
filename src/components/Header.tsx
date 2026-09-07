@@ -84,7 +84,11 @@ export function Header() {
       style={{ backgroundColor: 'var(--color-header)' }}
     >
       <div className="mx-auto flex max-w-[1440px] items-center justify-between px-6 py-4 md:px-10 lg:px-16">
-        <a href="#home" aria-label="Home" className="shrink-0">
+        {/* Logo: phones drop it entirely (per request) — the mobile row
+            below carries the nav + language toggle on its own, so nothing
+            here needs to reserve its place. Tablet/desktop keep it exactly
+            as before. */}
+        <a href="#home" aria-label="Home" className="hidden shrink-0 md:block">
           <img src={logo} alt="" className="h-12 w-auto md:h-14" />
         </a>
 
@@ -103,22 +107,21 @@ export function Header() {
         <div className="hidden md:block">
           <LanguageToggle />
         </div>
-      </div>
 
-      {/* Phones only: no hamburger/dropdown — the nav links and language
-          toggle sit permanently on a second row under the logo, always
-          visible with nothing to tap open. `md:hidden` keeps this row (and
-          the menu button it replaces) out of tablet/desktop entirely, so
-          that layout is unchanged. */}
-      <div className="flex items-center justify-between gap-3 px-6 pb-4 font-nav text-white md:hidden">
-        <nav className="flex items-center gap-4 text-sm font-semibold">
-          {nav.map((item) => (
-            <a key={item.href} href={item.href} className="whitespace-nowrap">
-              {t(item.label)}
-            </a>
-          ))}
-        </nav>
-        <LanguageToggle />
+        {/* Phones only: no logo, no hamburger/dropdown — just the nav links
+            and language toggle, filling the header on their own row.
+            `md:hidden` keeps this out of tablet/desktop entirely, so that
+            header is unchanged. */}
+        <div className="flex w-full items-center justify-between gap-3 font-nav text-white md:hidden">
+          <nav className="flex items-center gap-4 text-sm font-semibold">
+            {nav.map((item) => (
+              <a key={item.href} href={item.href} className="whitespace-nowrap">
+                {t(item.label)}
+              </a>
+            ))}
+          </nav>
+          <LanguageToggle />
+        </div>
       </div>
     </header>
   );
