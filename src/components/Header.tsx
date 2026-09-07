@@ -67,7 +67,6 @@ function LanguageToggle({ className = '' }: { className?: string }) {
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
   const { t } = useLanguage();
 
   useEffect(() => {
@@ -104,38 +103,23 @@ export function Header() {
         <div className="hidden md:block">
           <LanguageToggle />
         </div>
-
-        <button
-          type="button"
-          aria-label="Toggle menu"
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((v) => !v)}
-          className="flex cursor-pointer flex-col gap-1.5 md:hidden"
-        >
-          <span
-            className={`h-0.5 w-6 bg-white transition-transform duration-300 ${menuOpen ? 'translate-y-2 rotate-45' : ''}`}
-          />
-          <span className={`h-0.5 w-6 bg-white transition-opacity duration-300 ${menuOpen ? 'opacity-0' : ''}`} />
-          <span
-            className={`h-0.5 w-6 bg-white transition-transform duration-300 ${menuOpen ? '-translate-y-2 -rotate-45' : ''}`}
-          />
-        </button>
       </div>
 
-      <nav
-        className={`overflow-hidden font-nav text-white transition-[max-height] duration-300 ease-out md:hidden ${
-          menuOpen ? 'max-h-60' : 'max-h-0'
-        }`}
-      >
-        <div className="flex flex-col gap-4 px-6 pb-6">
+      {/* Phones only: no hamburger/dropdown — the nav links and language
+          toggle sit permanently on a second row under the logo, always
+          visible with nothing to tap open. `md:hidden` keeps this row (and
+          the menu button it replaces) out of tablet/desktop entirely, so
+          that layout is unchanged. */}
+      <div className="flex items-center justify-between gap-3 px-6 pb-4 font-nav text-white md:hidden">
+        <nav className="flex items-center gap-4 text-sm font-semibold">
           {nav.map((item) => (
-            <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)} className="text-lg font-semibold">
+            <a key={item.href} href={item.href} className="whitespace-nowrap">
               {t(item.label)}
             </a>
           ))}
-          <LanguageToggle className="self-start" />
-        </div>
-      </nav>
+        </nav>
+        <LanguageToggle />
+      </div>
     </header>
   );
 }
