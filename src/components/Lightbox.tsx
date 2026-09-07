@@ -230,9 +230,18 @@ export function Lightbox({ images, startIndex, onClose }: LightboxProps) {
         </span>
       </div>
 
+      {/* This wrapper spans the whole viewport (needed to center the image
+          via flexbox), but must NOT swallow clicks on its own — only a
+          click that actually lands on the image (or while dragging/panning
+          it) should be kept from reaching the backdrop's onClose below.
+          Otherwise every click in the empty space around a small or
+          non-full-bleed image — most of the screen, for a landscape
+          screenshot — silently does nothing instead of closing. */}
       <div
         className="flex size-full items-center justify-center overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          if (e.target !== e.currentTarget) e.stopPropagation();
+        }}
         onWheel={onWheel}
       >
         <img
