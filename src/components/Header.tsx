@@ -67,10 +67,46 @@ function LanguageToggle({ className = '' }: { className?: string }) {
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const [activeHref, setActiveHref] = useState(nav[0]?.href ?? '');
   const { t } = useLanguage();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Scroll-spy: highlight whichever section's top has most recently passed
+  // a fixed trigger line just under the header. Plain scroll-position math
+  // rather than IntersectionObserver ratios — the last section (Contact) is
+  // short and sits at the very bottom of the page, where the page can't
+  // scroll far enough for an observer's visibility-ratio/rootMargin band to
+  // ever trigger correctly; comparing raw offsets handles that case for
+  // free, since the last section still "wins" once its top clears the line.
+  useEffect(() => {
+    const sections = nav
+      .map((item) => document.querySelector(item.href))
+      .filter((el): el is HTMLElement => el !== null);
+    if (!sections.length) return;
+
+    const TRIGGER_LINE = 120; // px from viewport top — clears the fixed header on every breakpoint
+
+    const onScroll = () => {
+      const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      if (atBottom) {
+        setActiveHref(`#${sections[sections.length - 1].id}`);
+        return;
+      }
+      let current = sections[0];
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= TRIGGER_LINE) {
+          current = section;
+        }
+      }
+      setActiveHref(`#${current.id}`);
+    };
+
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -93,15 +129,21 @@ export function Header() {
         </a>
 
         <nav className="hidden items-center gap-10 font-nav text-lg font-semibold tracking-[0.02em] text-white md:flex lg:gap-16 lg:text-xl">
-          {nav.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="relative py-1 transition-colors duration-200 hover:text-[var(--color-accent-light)] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-[var(--color-accent-light)] after:transition-all after:duration-300 hover:after:w-full"
-            >
-              {t(item.label)}
-            </a>
-          ))}
+          {nav.map((item) => {
+            const isActive = activeHref === item.href;
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                aria-current={isActive ? 'true' : undefined}
+                className={`relative py-1 transition-colors duration-200 after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-[var(--color-accent-light)] after:transition-all after:duration-300 hover:text-[var(--color-accent-light)] hover:after:w-full ${
+                  isActive ? 'text-[var(--color-accent-light)] after:w-full' : 'after:w-0'
+                }`}
+              >
+                {t(item.label)}
+              </a>
+            );
+          })}
         </nav>
 
         <div className="hidden md:block">
@@ -114,11 +156,21 @@ export function Header() {
             header is unchanged. */}
         <div className="flex w-full items-center justify-between gap-3 font-nav text-white md:hidden">
           <nav className="flex items-center gap-4 text-sm font-semibold">
-            {nav.map((item) => (
-              <a key={item.href} href={item.href} className="whitespace-nowrap">
-                {t(item.label)}
-              </a>
-            ))}
+            {nav.map((item) => {
+              const isActive = activeHref === item.href;
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  aria-current={isActive ? 'true' : undefined}
+                  className={`whitespace-nowrap transition-colors duration-200 ${
+                    isActive ? 'text-[var(--color-accent-light)]' : ''
+                  }`}
+                >
+                  {t(item.label)}
+                </a>
+              );
+            })}
           </nav>
           <LanguageToggle />
         </div>

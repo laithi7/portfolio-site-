@@ -149,6 +149,7 @@ export const nav: NavLink[] = [
   { label: { en: 'Home', ar: 'الرئيسية' }, href: '#home' },
   { label: { en: 'Exp', ar: 'الخبرات' }, href: '#about' },
   { label: { en: 'Project', ar: 'المشاريع' }, href: '#lab' },
+  { label: { en: 'Contact', ar: 'التواصل' }, href: '#contact' },
 ];
 
 /** Hardcoded section headings that aren't otherwise part of a content block. */
@@ -615,11 +616,7 @@ export const projects: FeaturedProject[] = [
 ];
 
 export const contact = {
-  heading: { en: 'Let’s Connect', ar: 'لنتواصل' } satisfies Localized,
-  blurb: {
-    en: 'Have an opportunity or an idea in mind? I’d love to hear from you.',
-    ar: 'عندك فرصة أو فكرة بخاطرك؟ يسعدني إني اسمعها منك.',
-  } satisfies Localized,
+  heading: { en: 'Contact Me', ar: 'تواصل معي' } satisfies Localized,
   email: 'Laithi11@aol.com',
   phone: '+966539336282',
   phoneDisplay: '0539 336 282',
